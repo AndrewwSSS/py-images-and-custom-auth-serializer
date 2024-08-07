@@ -40,7 +40,7 @@ class Actor(models.Model):
         return f"{self.first_name} {self.last_name}"
 
 
-def movie_image(instance: "Movie", filename: str) -> pathlib.Path:
+def movie_image_file_path(instance: "Movie", filename: str) -> pathlib.Path:
     filename = (f"{slugify(instance.title)}-"
                 f"{uuid.uuid4()}{pathlib.Path(filename).suffix}")
     return pathlib.Path("uploads/movies/") / pathlib.Path(filename)
@@ -52,7 +52,7 @@ class Movie(models.Model):
     duration = models.IntegerField()
     genres = models.ManyToManyField(Genre)
     actors = models.ManyToManyField(Actor)
-    image = models.ImageField(upload_to=movie_image, null=True)
+    image = models.ImageField(upload_to=movie_image_file_path, null=True)
 
     class Meta:
         ordering = ["title"]
